@@ -11,6 +11,7 @@
     th { background-color: #f4f4f4; }
     input { padding: 0.5rem; margin: 0.3rem 0; }
     button { padding: 0.4rem 0.7rem; margin-right: 0.3rem; }
+    #cancelarEdicion { display: none; background-color: #f44336; color: white; }
   </style>
 </head>
 <body>
@@ -20,7 +21,9 @@
     <input type="text" id="nombre" placeholder="Nombre completo" required>
     <input type="text" id="edad" placeholder="Edad" required>
     <input type="text" id="nac" placeholder="Nacionalidad" required>
-    <button type="submit">Agregar Usuario</button>
+    <button type="submit" id="botonguardar">Agregar Usuario</button>
+    <button type="button" id="cancelar">Cancelar</button>
+    
   </form>
 
   <table>
@@ -68,8 +71,16 @@
       document.getElementById("edad").value = usuario.edad;
       document.getElementById("nac").value = usuario.nac;
       editando = index;
+      document.getElementById("botonguardar").textContent = "Guardar Cambios";
+      document.getElementById("cancelar").style.display = "inline-block";      
     }
-
+function cancelarEdicion() {
+      editando = null;
+      document.getElementById("formUsuario").reset();
+      document.getElementById("btnGuardar").textContent = "Agregar Usuario";
+      document.getElementById("cancelarEdicion").style.display = "none";
+}
+    
     function eliminarUsuario(index) {
       if (confirm("¿Estás seguro de eliminar este usuario?")) {
         usuarios.splice(index, 1);
