@@ -74,11 +74,11 @@
       document.getElementById("botonguardar").textContent = "Guardar Cambios";
       document.getElementById("cancelar").style.display = "inline-block";      
     }
-function cancelarEdicion() {
+function   cancelarEdicion() {
       editando = null;
       document.getElementById("formUsuario").reset();
-      document.getElementById("btnGuardar").textContent = "Agregar Usuario";
-      document.getElementById("cancelarEdicion").style.display = "none";
+      document.getElementById("botonguardar").textContent = "Agregar Usuario";
+      document.getElementById("cancelar").style.display = "none";
 }
     
     function eliminarUsuario(index) {
@@ -86,6 +86,7 @@ function cancelarEdicion() {
         usuarios.splice(index, 1);
         guardarUsuarios();
         renderUsuarios();
+        cancelar();
       }
     }
 
@@ -104,9 +105,9 @@ function cancelarEdicion() {
 
       guardarUsuarios();
       renderUsuarios();
-      this.reset();
+      cancelar();
     });
-
+ document.getElementById("cancelar").addEventListener("click", cancelar);
     renderUsuarios();
   </script>
 </body>
