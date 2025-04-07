@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Usuarios</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    th { background-color: #f4f4f4; }
+    input { padding: 0.5rem; margin: 0.3rem 0; }
+    button { padding: 0.4rem 0.7rem; margin-right: 0.3rem; }
+  </style>
+</head>
+<body>
+  <h1>Gestor de Usuarios</h1>
+
+  <form id="formUsuario">
+    <input type="text" id="nombre" placeholder="Nombre" required>
+    <input type="email" id="email" placeholder="Correo" required>
+    <button type="submit">Agregar Usuario</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaUsuarios"></tbody>
+  </table>
+
+  <script>
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    let editando = null;
+
+    function guardarUsuarios() {
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    }
+
+    function renderUsuarios() {
+      const tabla = document.getElementById("tablaUsuarios");
+      tabla.innerHTML = "";
+
+      usuarios.forEach((usuario, index) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${usuario.nombre}</td>
+          <td>${usuario.email}</td>
+          <td>
+            <button onclick="editarUsuario(${index})">Editar</button>
+            <button onclick="eliminarUsuario(${index})">Eliminar</button>
+          </td>
+        `;
+        tabla.appendChild(fila);
+      });
+    }
+
+    function editarUsuario(index) {
+      const usuario = usuarios[index];
+      document.getElementById("nombre").value = usuario.nombre;
+      document.getElementById("email").value = usuario.email;
+      editando = index;
+    }
+
+    function eliminarUsuario(index) {
+      if (confirm("¿Estás seguro de eliminar este usuario?")) {
+        usuarios.splice(index, 1);
+        guardarUsuarios();
+        renderUsuarios();
+      }
+    }
+
+    document.getElementById("formUsuario").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value;
+      const email = document.getElementById("email").value;
+
+      if (editando !== null) {
+        usuarios[editando] = { nombre, email };
+        editando = null;
+      } else {
+        usuarios.push({ nombre, email });
+      }
+
+      guardarUsuarios();
+      renderUsuarios();
+      this.reset();
+    });
+
+    renderUsuarios();
+  </script>
+</body>
+</html>
