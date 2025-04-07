@@ -26,9 +26,10 @@
   <table>
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Acciones</th>
+        <th>Nombre Completo</th>
+        <th>Edad</th>
+        <th>Nacionalidad</th>
+        <th>¿QUE DESEAS REALIZAR?</th>
       </tr>
     </thead>
     <tbody id="tablaUsuarios"></tbody>
@@ -50,7 +51,8 @@
         const fila = document.createElement("tr");
         fila.innerHTML = `
           <td>${usuario.nombre}</td>
-          <td>${usuario.email}</td>
+          <td>${usuario.edad}</td>
+          <td>${usuario.nac}</td>
           <td>
             <button onclick="editarUsuario(${index})">Editar</button>
             <button onclick="eliminarUsuario(${index})">Eliminar</button>
@@ -63,7 +65,8 @@
     function editarUsuario(index) {
       const usuario = usuarios[index];
       document.getElementById("nombre").value = usuario.nombre;
-      document.getElementById("email").value = usuario.email;
+      document.getElementById("edad").value = usuario.edad;
+      document.getElementById("nacionalidad").value = usuario.nac;
       editando = index;
     }
 
@@ -78,13 +81,14 @@
     document.getElementById("formUsuario").addEventListener("submit", function(e) {
       e.preventDefault();
       const nombre = document.getElementById("nombre").value;
-      const email = document.getElementById("email").value;
+      const edad = document.getElementById("edad").value;
+      const nac = document.getElementById("nac").value;
 
       if (editando !== null) {
-        usuarios[editando] = { nombre, email };
+        usuarios[editando] = { nombre, edad, nac };
         editando = null;
       } else {
-        usuarios.push({ nombre, email });
+        usuarios.push({ nombre, edad, nac });
       }
 
       guardarUsuarios();
